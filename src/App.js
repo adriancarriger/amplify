@@ -1,8 +1,13 @@
 import React, { useEffect, useState } from 'react';
-import { Auth, Hub, API, graphqlOperation } from 'aws-amplify';
+import {
+  Auth,
+  Hub
+  // API,
+  // graphqlOperation
+} from 'aws-amplify';
 
 // import { createBlog } from './graphql/mutations';
-import { listBlogs } from './graphql/queries';
+// import { listBlogs } from './graphql/queries';
 import logo from './logo.svg';
 import './App.css';
 
@@ -35,7 +40,7 @@ function App(props) {
     })();
   }, []);
 
-  const [blogs, setBlog] = useState([]);
+  const [blogs] = useState([]);
 
   return (
     <div className="App">
@@ -76,10 +81,10 @@ function signOut() {
 //   console.log(newBlog);
 // }
 
-async function listBlogsQuery() {
-  const { data } = await API.graphql(graphqlOperation(listBlogs));
+// async function listBlogsQuery() {
+//   const { data } = await API.graphql(graphqlOperation(listBlogs));
 
-  return data.listBlogs.items;
-}
+//   return data.listBlogs.items;
+// }
 
 export default App;
