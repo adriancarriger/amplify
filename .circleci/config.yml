@@ -1,0 +1,72 @@
+version: 2.1
+
+var_1: &cache_key v1-{{ checksum "package.json" }}
+
+var_2: &restore_cache
+  restore_cache:
+    key: *cache_key
+
+var_3: &save_cache
+  save_cache:
+    key: *cache_key
+    paths:
+      - node_modules
+
+var_4: &attach_workspace
+  attach_workspace:
+    at: .
+
+orbs:
+  aws-cli: circleci/aws-cli@0.1.13
+
+executors:
+  node:
+    docker:
+      - image: circleci/node:12.4.0
+
+jobs:
+  prepare:
+    executor: node
+    steps:
+      - checkout
+      - *restore_cache
+      - run: yarn install
+      - *save_cache
+      - persist_to_workspace:
+          root: .
+          paths:
+            - node_modules
+
+  deploy:
+    parameters:
+      deploy_env:
+        type: string
+    executor: node
+    steps:
+      - checkout
+      - *attach_workspace
+      - aws-cli/install
+      - aws-cli/configure
+      - run:
+          name: 'Install aws-amplify CLI'
+          command: sudo yarn global add @aws-amplify/cli
+      - run:
+          name: 'Checkout Amplify << parameters.deploy_env >> Environment'
+          command: amplify init --amplify "{\"envName\":\"<< parameters.deploy_env >>\"}" --providers "{\"awscloudformation\":{\"useProfile\":true,\"profileName\":\"default\"}}" --yes
+      - run:
+          name: 'Deploy to << parameters.deploy_env >>'
+          command: amplify push --yes
+
+workflows:
+  deploy:
+    jobs:
+      - prepare
+      - deploy:
+          context: aws-profile
+          deploy_env: staging
+          requires:
+            - prepare
+          filters:
+            branches:
+              only:
+                - develop
