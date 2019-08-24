@@ -55,7 +55,7 @@ jobs:
           command: amplify init --amplify "{\"envName\":\"<< parameters.deploy_env >>\"}" --providers "{\"awscloudformation\":{\"useProfile\":true,\"profileName\":\"default\"}}" --yes
       - run:
           name: 'Deploy to << parameters.deploy_env >>'
-          command: amplify push --yes
+          command: amplify publish --yes
 
 workflows:
   deploy:
