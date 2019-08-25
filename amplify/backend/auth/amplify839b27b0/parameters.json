@@ -1,9 +1,9 @@
 {
-    "identityPoolName": "3mlwfee126700f_identitypool_e126700f",
+    "identityPoolName": "amplify839b27b0_identitypool_839b27b0",
     "allowUnauthenticatedIdentities": false,
-    "openIdLambdaRoleName": "3mlwfee126700f_openid_lambda_role",
-    "resourceNameTruncated": "3mlwfee126700f",
-    "userPoolName": "3mlwfee126700f_userpool_e126700f",
+    "openIdLambdaRoleName": "amplif839b27b0_openid_lambda_role",
+    "resourceNameTruncated": "amplif839b27b0",
+    "userPoolName": "amplify839b27b0_userpool_839b27b0",
     "autoVerifiedAttributes": [
         "email"
     ],
@@ -21,7 +21,7 @@
     "requiredAttributes": [
         "email"
     ],
-    "userpoolClientName": "3mlwfee126700f_app_client",
+    "userpoolClientName": "amplif839b27b0_app_client",
     "userpoolClientGenerateSecret": true,
     "userpoolClientRefreshTokenValidity": 30,
     "userpoolClientWriteAttributes": [
@@ -30,10 +30,10 @@
     "userpoolClientReadAttributes": [
         "email"
     ],
-    "mfaLambdaRole": "3mlwfee126700f_totp_lambda_role",
-    "userpoolClientLambdaRole": "3mlwfee126700f_userpoolclient_lambda_role",
+    "mfaLambdaRole": "amplif839b27b0_totp_lambda_role",
+    "userpoolClientLambdaRole": "amplif839b27b0_userpoolclient_lambda_role",
     "userpoolClientSetAttributes": false,
-    "resourceName": "3mlwfee126700f",
+    "resourceName": "amplify839b27b0",
     "authSelections": "identityPoolAndUserPool",
     "authRoleName": {
         "Ref": "AuthRoleName"
@@ -60,45 +60,21 @@
         "triggers"
     ],
     "triggers": "{}",
-    "hostedUIDomainName": "3mlwfee126700f-e126700f",
+    "hostedUIDomainName": "amplify839b27b0-839b27b0",
     "newCallbackURLs": [
-        "http://localhost:3000/"
+        "https://d2js1wbnpzf0q3.cloudfront.net/"
     ],
     "newLogoutURLs": [
-        "http://localhost:3000/"
+        "https://d2js1wbnpzf0q3.cloudfront.net/"
     ],
     "authProvidersUserPool": [
         "Google"
     ],
     "hostedUIProviderMeta": "[{\"ProviderName\":\"Google\",\"authorize_scopes\":\"openid email profile\",\"AttributeMapping\":{\"email\":\"email\",\"username\":\"sub\"}}]",
+    "oAuthMetadata": "{\"AllowedOAuthFlows\":[\"code\"],\"AllowedOAuthScopes\":[\"phone\",\"email\",\"openid\",\"profile\",\"aws.cognito.signin.user.admin\"],\"CallbackURLs\":[\"https://d2js1wbnpzf0q3.cloudfront.net/\"],\"LogoutURLs\":[\"https://d2js1wbnpzf0q3.cloudfront.net/\"]}",
     "parentStack": {
         "Ref": "AWS::StackId"
     },
     "permissions": [],
-    "dependsOn": [],
-    "AllowedOAuthFlows": [
-        "code"
-    ],
-    "AllowedOAuthScopes": [
-        "phone",
-        "email",
-        "openid",
-        "profile",
-        "aws.cognito.signin.user.admin"
-    ],
-    "CallbackURLs": [
-        "https://d2i2lclnjqq75d.cloudfront.net/"
-    ],
-    "LogoutURLs": [
-        "https://d2i2lclnjqq75d.cloudfront.net/"
-    ],
-    "googleAuthorizeScopes": [
-        "openid email profile"
-    ],
-    "updateFlow": "callbacks",
-    "EditURLS": [],
-    "addCallbackOnUpdate": true,
-    "editLogoutURLs": [],
-    "addLogoutOnUpdate": true,
-    "oAuthMetadata": "{\"AllowedOAuthFlows\":[\"code\"],\"AllowedOAuthScopes\":[\"phone\",\"email\",\"openid\",\"profile\",\"aws.cognito.signin.user.admin\"],\"CallbackURLs\":[\"https://d2i2lclnjqq75d.cloudfront.net/\",\"http://localhost:3000/\"],\"LogoutURLs\":[\"https://d2i2lclnjqq75d.cloudfront.net/\",\"http://localhost:3000/\"]}"
+    "dependsOn": []
 }

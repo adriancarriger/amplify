@@ -1,5 +1,5 @@
 projects:
-  3mlwfe:
+  amplify:
     schemaPath: src/graphql/schema.json
     includes:
       - src/graphql/**/*.js

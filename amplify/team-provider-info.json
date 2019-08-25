@@ -1,61 +1,21 @@
 {
-    "dev": {
-        "awscloudformation": {
-            "AuthRoleName": "a3mlwfe-dev-20190810141636-authRole",
-            "UnauthRoleArn": "arn:aws:iam::872515952951:role/a3mlwfe-dev-20190810141636-unauthRole",
-            "AuthRoleArn": "arn:aws:iam::872515952951:role/a3mlwfe-dev-20190810141636-authRole",
-            "Region": "us-east-1",
-            "DeploymentBucketName": "a3mlwfe-dev-20190810141636-deployment",
-            "UnauthRoleName": "a3mlwfe-dev-20190810141636-unauthRole",
-            "StackName": "a3mlwfe-dev-20190810141636",
-            "StackId": "arn:aws:cloudformation:us-east-1:872515952951:stack/a3mlwfe-dev-20190810141636/5f89f1d0-bba3-11e9-916c-0af7a73fd784"
-        },
-        "categories": {
-            "auth": {
-                "3mlwfe92f1c222": {
-                    "hostedUIProviderCreds": "[{\"ProviderName\":\"Google\",\"client_id\":\"506848841707-e3ogh171eh53fjlg689f98576hs3hgbi.apps.googleusercontent.com\",\"client_secret\":\"6hbjmyR-qLePi8TuUx3jzHLc\"}]"
-                }
-            }
-        }
-    },
     "staging": {
         "awscloudformation": {
-            "AuthRoleName": "a3mlwfe-staging-20190810170808-authRole",
-            "UnauthRoleArn": "arn:aws:iam::872515952951:role/a3mlwfe-staging-20190810170808-unauthRole",
-            "AuthRoleArn": "arn:aws:iam::872515952951:role/a3mlwfe-staging-20190810170808-authRole",
+            "AuthRoleName": "amplify-staging-20190825054246-authRole",
+            "UnauthRoleArn": "arn:aws:iam::872515952951:role/amplify-staging-20190825054246-unauthRole",
+            "AuthRoleArn": "arn:aws:iam::872515952951:role/amplify-staging-20190825054246-authRole",
             "Region": "us-east-1",
-            "DeploymentBucketName": "a3mlwfe-staging-20190810170808-deployment",
-            "UnauthRoleName": "a3mlwfe-staging-20190810170808-unauthRole",
-            "StackName": "a3mlwfe-staging-20190810170808",
-            "StackId": "arn:aws:cloudformation:us-east-1:872515952951:stack/a3mlwfe-staging-20190810170808/56632f50-bbbb-11e9-9bda-0a82639e0346"
+            "DeploymentBucketName": "amplify-staging-20190825054246-deployment",
+            "UnauthRoleName": "amplify-staging-20190825054246-unauthRole",
+            "StackName": "amplify-staging-20190825054246",
+            "StackId": "arn:aws:cloudformation:us-east-1:872515952951:stack/amplify-staging-20190825054246/138d1040-c725-11e9-b4ac-12f08cf73b28"
         },
         "categories": {
             "auth": {
-                "3mlwfee126700f": {
-                    "googleAppIdUserPool": "506848841707-e3ogh171eh53fjlg689f98576hs3hgbi.apps.googleusercontent.com",
-                    "googleAppSecretUserPool": "6hbjmyR-qLePi8TuUx3jzHLc",
-                    "hostedUIProviderCreds": "[{\"ProviderName\":\"Google\",\"client_id\":\"506848841707-e3ogh171eh53fjlg689f98576hs3hgbi.apps.googleusercontent.com\",\"client_secret\":\"6hbjmyR-qLePi8TuUx3jzHLc\"}]"
-                }
-            }
-        }
-    },
-    "local": {
-        "awscloudformation": {
-            "AuthRoleName": "a3mlwfe-local-20190811120214-authRole",
-            "UnauthRoleArn": "arn:aws:iam::872515952951:role/a3mlwfe-local-20190811120214-unauthRole",
-            "AuthRoleArn": "arn:aws:iam::872515952951:role/a3mlwfe-local-20190811120214-authRole",
-            "Region": "us-east-1",
-            "DeploymentBucketName": "a3mlwfe-local-20190811120214-deployment",
-            "UnauthRoleName": "a3mlwfe-local-20190811120214-unauthRole",
-            "StackName": "a3mlwfe-local-20190811120214",
-            "StackId": "arn:aws:cloudformation:us-east-1:872515952951:stack/a3mlwfe-local-20190811120214/c4f93b50-bc59-11e9-a24c-120371d9064c"
-        },
-        "categories": {
-            "auth": {
-                "3mlwfee126700f": {
-                    "googleAppIdUserPool": "506848841707-e3ogh171eh53fjlg689f98576hs3hgbi.apps.googleusercontent.com",
-                    "googleAppSecretUserPool": "6hbjmyR-qLePi8TuUx3jzHLc",
-                    "hostedUIProviderCreds": "[{\"ProviderName\":\"Google\",\"client_id\":\"506848841707-e3ogh171eh53fjlg689f98576hs3hgbi.apps.googleusercontent.com\",\"client_secret\":\"6hbjmyR-qLePi8TuUx3jzHLc\"}]"
+                "amplify839b27b0": {
+                    "googleAppIdUserPool": "682052105711-ai21mep5eptgped5t60ehvql1fl8b3h6.apps.googleusercontent.com",
+                    "googleAppSecretUserPool": "BNNwIM3yRe8TNSe7zrUfbDjI",
+                    "hostedUIProviderCreds": "[{\"ProviderName\":\"Google\",\"client_id\":\"682052105711-ai21mep5eptgped5t60ehvql1fl8b3h6.apps.googleusercontent.com\",\"client_secret\":\"BNNwIM3yRe8TNSe7zrUfbDjI\"}]"
                 }
             }
         }
