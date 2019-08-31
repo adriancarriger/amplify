@@ -7,6 +7,9 @@ import App from './App';
 import * as serviceWorker from './serviceWorker';
 import config from './aws-exports';
 
+config.oauth.redirectSignIn = `${config.aws_content_delivery_url}/`;
+config.oauth.redirectSignOut = `${config.aws_content_delivery_url}/`;
+
 Amplify.configure(config);
 
 ReactDOM.render(<App />, document.getElementById('root'));

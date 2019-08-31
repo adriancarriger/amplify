@@ -53,7 +53,7 @@ function App(props) {
         <button onClick={checkUser}>Check User</button>
         <button onClick={signOut}>Sign Out</button>
         <button onClick={() => Auth.federatedSignIn({ provider: 'Google' })}>
-          Sign In with Google
+          Sign In with Google (test-33)
         </button>
       </header>
     </div>
