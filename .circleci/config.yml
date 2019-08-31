@@ -41,6 +41,8 @@ jobs:
     parameters:
       deploy_env:
         type: string
+      env_prefix:
+        type: string
     executor: node
     steps:
       - checkout
@@ -48,25 +50,45 @@ jobs:
       - aws-cli/install
       - aws-cli/configure
       - run:
-          name: 'Install aws-amplify CLI'
+          name: Install aws-amplify CLI
           command: sudo yarn global add @aws-amplify/cli
       - run:
-          name: 'Checkout Amplify << parameters.deploy_env >> Environment'
-          command: amplify init --amplify "{\"envName\":\"<< parameters.deploy_env >>\"}" --providers "{\"awscloudformation\":{\"useProfile\":true,\"profileName\":\"default\"}}" --yes
+          name: Checkout Amplify << parameters.deploy_env >> environment
+          command: amplify init --amplify "{\"envName\":\"<< parameters.deploy_env >>\",\"defaultEditor\":\"code\"}" --providers "{\"awscloudformation\":{\"useProfile\":true,\"profileName\":\"default\"}}"
       - run:
-          name: 'Deploy to << parameters.deploy_env >>'
-          command: amplify publish --invalidateCloudFront --codegen "{\"generateCode\":false}" -- yes
+          name: Inject secrets
+          command: |
+            # undo deletion of googleAppIdUserPool and googleAppSecretUserPool
+            git reset --hard
+            # inject secrets
+            sed -i "s/<< parameters.deploy_env >>-google-auth-secret-here/$<< parameters.env_prefix >>_GOOGLE_AUTH_SECRET/g" amplify/team-provider-info.json
+      - run:
+          name: Deploy to << parameters.deploy_env >>
+          command: amplify publish --invalidateCloudFront --codegen "{\"generateCode\":false}" --yes
 
 workflows:
-  deploy:
+  build_deploy:
     jobs:
       - prepare
       - deploy:
+          name: deploy staging
           context: aws-profile
           deploy_env: staging
+          env_prefix: STAGING
           requires:
             - prepare
           filters:
             branches:
               only:
                 - develop
+      - deploy:
+          name: deploy prod
+          context: aws-profile
+          deploy_env: production
+          env_prefix: PRODUCTION
+          requires:
+            - prepare
+          filters:
+            branches:
+              only:
+                - master

@@ -117,19 +117,7 @@ Parameters:
   authProvidersUserPool:
     Type: CommaDelimitedList
       
-  googleAppIdUserPool:
-    Type: String
-              
-  googleAppSecretUserPool:
-    Type: String
-              
   hostedUIProviderMeta:
-    Type: String
-              
-  hostedUIProviderCreds:
-    Type: String
-              
-  oAuthMetadata:
     Type: String
                     
   parentStack:
@@ -140,7 +128,49 @@ Parameters:
               
   dependsOn:
     Type: CommaDelimitedList
-    
+              
+  AllowedOAuthFlows:
+    Type: CommaDelimitedList
+              
+  AllowedOAuthScopes:
+    Type: CommaDelimitedList
+              
+  CallbackURLs:
+    Type: CommaDelimitedList
+              
+  LogoutURLs:
+    Type: CommaDelimitedList
+              
+  googleAuthorizeScopes:
+    Type: CommaDelimitedList
+      
+  updateFlow:
+    Type: String
+                      
+  EditURLS:
+    Type: CommaDelimitedList
+        
+  addCallbackOnUpdate:
+    Type: String
+                    
+  editLogoutURLs:
+    Type: CommaDelimitedList
+        
+  addLogoutOnUpdate:
+    Type: String
+            
+  googleAppIdUserPool:
+    Type: String
+              
+  googleAppSecretUserPool:
+    Type: String
+              
+  hostedUIProviderCreds:
+    Type: String
+              
+  oAuthMetadata:
+    Type: String
+            
 Conditions:
   ShouldNotCreateEnvResources: !Equals [ !Ref env, NONE ]
 
@@ -152,7 +182,7 @@ Resources:
   # Created to allow the UserPool SMS Config to publish via the Simple Notification Service during MFA Process
     Type: AWS::IAM::Role
     Properties:
-      RoleName: !If [ShouldNotCreateEnvResources, 'amplif839b27b0_sns-role', !Join ['',['amplif839b27b0_sns-role', '-', !Ref env]]]
+      RoleName: !If [ShouldNotCreateEnvResources, 'amplif0686d921_sns-role', !Join ['',['amplif0686d921_sns-role', '-', !Ref env]]]
       AssumeRolePolicyDocument: 
         Version: "2012-10-17"
         Statement: 
@@ -164,10 +194,10 @@ Resources:
               - "sts:AssumeRole"
             Condition: 
               StringEquals:
-                sts:ExternalId: amplif839b27b0_role_external_id
+                sts:ExternalId: amplif0686d921_role_external_id
       Policies: 
         - 
-          PolicyName: amplif839b27b0-sns-policy
+          PolicyName: amplif0686d921-sns-policy
           PolicyDocument: 
             Version: "2012-10-17"
             Statement: 
@@ -213,7 +243,7 @@ Resources:
       SmsVerificationMessage: !Ref smsVerificationMessage
       SmsConfiguration: 
         SnsCallerArn: !GetAtt SNSRole.Arn
-        ExternalId: amplif839b27b0_role_external_id
+        ExternalId: amplif0686d921_role_external_id
     
   
     
@@ -232,7 +262,7 @@ Resources:
   # Depends on UserPool for ID reference
     Type: "AWS::Cognito::UserPoolClient"
     Properties:
-      ClientName: amplif839b27b0_app_clientWeb
+      ClientName: amplif0686d921_app_clientWeb
       
       RefreshTokenValidity: !Ref userpoolClientRefreshTokenValidity
       UserPoolId: !Ref UserPool
@@ -307,7 +337,7 @@ Resources:
   # Marked as depending on UserPoolClientRole for easier to understand CFN sequencing
     Type: 'AWS::IAM::Policy'
     Properties:
-      PolicyName: amplif839b27b0_userpoolclient_lambda_iam_policy
+      PolicyName: amplif0686d921_userpoolclient_lambda_iam_policy
       Roles: 
         - !If [ShouldNotCreateEnvResources, !Ref userpoolClientLambdaRole, !Join ['',[!Ref userpoolClientLambdaRole, '-', !Ref env]]]
       PolicyDocument:
@@ -324,7 +354,7 @@ Resources:
   # Marked as depending on UserPoolClientLambdaPolicy for easier to understand CFN sequencing
     Type: 'AWS::IAM::Policy'
     Properties:
-      PolicyName: amplif839b27b0_userpoolclient_lambda_log_policy
+      PolicyName: amplif0686d921_userpoolclient_lambda_log_policy
       Roles: 
         - !If [ShouldNotCreateEnvResources, !Ref userpoolClientLambdaRole, !Join ['',[!Ref userpoolClientLambdaRole, '-', !Ref env]]]
       PolicyDocument:
@@ -711,7 +741,7 @@ Resources:
   # Always created
     Type: AWS::Cognito::IdentityPool
     Properties: 
-      IdentityPoolName: !If [ShouldNotCreateEnvResources, 'amplify839b27b0_identitypool_839b27b0', !Join ['',['amplify839b27b0_identitypool_839b27b0', '__', !Ref env]]]
+      IdentityPoolName: !If [ShouldNotCreateEnvResources, 'amplify0686d921_identitypool_0686d921', !Join ['',['amplify0686d921_identitypool_0686d921', '__', !Ref env]]]
       
       CognitoIdentityProviders:
         - ClientId:  !Ref UserPoolClient
