@@ -1,5 +1,5 @@
 blockingLabels:
-  - blocked
+  - doNotMerge
 deleteBranchAfterMerge: true
 mergeMethod: rebase
 reportStatus: true
