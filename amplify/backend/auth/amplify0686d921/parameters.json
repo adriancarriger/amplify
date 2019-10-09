@@ -62,10 +62,10 @@
     "triggers": "{}",
     "hostedUIDomainName": "amplify0686d921-0686d921",
     "newCallbackURLs": [
-        "https://d3l1a33zua45mp.cloudfront.net/"
+        "http://localhost:3000/"
     ],
     "newLogoutURLs": [
-        "https://d3l1a33zua45mp.cloudfront.net/"
+        "http://localhost:3000/"
     ],
     "authProvidersUserPool": [
         "Google"
@@ -88,19 +88,23 @@
     ],
     "CallbackURLs": [
         "https://d2vym034yhrzug.cloudfront.net/",
-        "https://d198wttxd6pjfe.cloudfront.net/"
+        "https://d198wttxd6pjfe.cloudfront.net/",
+        "https://d3l1a33zua45mp.cloudfront.net/",
+        "https://localhost:3000/"
     ],
     "LogoutURLs": [
         "https://d2vym034yhrzug.cloudfront.net/",
-        "https://d198wttxd6pjfe.cloudfront.net/"
+        "https://d198wttxd6pjfe.cloudfront.net/",
+        "https://d3l1a33zua45mp.cloudfront.net/",
+        "https://localhost:3000/"
     ],
     "googleAuthorizeScopes": [
         "openid email profile"
     ],
     "updateFlow": "callbacks",
     "EditURLS": [],
-    "addCallbackOnUpdate": true,
+    "addCallbackOnUpdate": false,
     "editLogoutURLs": [],
-    "addLogoutOnUpdate": true,
-    "oAuthMetadata": "{\"AllowedOAuthFlows\":[\"code\"],\"AllowedOAuthScopes\":[\"phone\",\"email\",\"openid\",\"profile\",\"aws.cognito.signin.user.admin\"],\"CallbackURLs\":[\"https://d2vym034yhrzug.cloudfront.net/\",\"https://d198wttxd6pjfe.cloudfront.net/\",\"https://d3l1a33zua45mp.cloudfront.net/\"],\"LogoutURLs\":[\"https://d2vym034yhrzug.cloudfront.net/\",\"https://d198wttxd6pjfe.cloudfront.net/\",\"https://d3l1a33zua45mp.cloudfront.net/\"]}"
+    "addLogoutOnUpdate": false,
+    "oAuthMetadata": "{\"AllowedOAuthFlows\":[\"code\"],\"AllowedOAuthScopes\":[\"phone\",\"email\",\"openid\",\"profile\",\"aws.cognito.signin.user.admin\"],\"CallbackURLs\":[\"https://d2vym034yhrzug.cloudfront.net/\",\"https://d198wttxd6pjfe.cloudfront.net/\",\"https://d3l1a33zua45mp.cloudfront.net/\",\"https://localhost:3000/\"],\"LogoutURLs\":[\"https://d2vym034yhrzug.cloudfront.net/\",\"https://d198wttxd6pjfe.cloudfront.net/\",\"https://d3l1a33zua45mp.cloudfront.net/\",\"https://localhost:3000/\"]}"
 }

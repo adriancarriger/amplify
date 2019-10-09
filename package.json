@@ -1,15 +1,22 @@
 {
-  "name": "my-app",
+  "name": "amplify",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@material-ui/core": "^4.4.0",
+    "@material-ui/icons": "^4.2.1",
     "apollo-boost": "^0.4.4",
     "aws-amplify": "^1.1.36",
     "aws-appsync": "^1.8.1",
     "aws-appsync-react": "^1.2.9",
+    "clsx": "^1.0.4",
+    "gravatar": "^1.8.0",
+    "material-table": "^1.50.0",
+    "material-ui-popup-state": "^1.4.1",
     "react": "^16.9.0",
     "react-apollo": "^2.5.8",
     "react-dom": "^16.9.0",
+    "react-router-dom": "^5.0.1",
     "react-scripts": "3.1.0"
   },
   "scripts": {
