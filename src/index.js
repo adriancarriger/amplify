@@ -7,8 +7,7 @@ import App from './App';
 import * as serviceWorker from './serviceWorker';
 import config from './aws-exports';
 
-config.oauth.redirectSignIn = `${config.aws_content_delivery_url}/`;
-config.oauth.redirectSignOut = `${config.aws_content_delivery_url}/`;
+updateConfig(config);
 
 Amplify.configure(config);
 
@@ -18,3 +17,13 @@ ReactDOM.render(<App />, document.getElementById('root'));
 // unregister() to register() below. Note this comes with some pitfalls.
 // Learn more about service workers: https://bit.ly/CRA-PWA
 serviceWorker.unregister();
+
+function updateConfig(config) {
+  const redirectUrl =
+    process.env.NODE_ENV === 'development'
+      ? 'https://localhost:3000/'
+      : `${config.aws_content_delivery_url}/`;
+
+  config.oauth.redirectSignIn = redirectUrl;
+  config.oauth.redirectSignOut = redirectUrl;
+}

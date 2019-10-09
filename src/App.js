@@ -1,90 +1,136 @@
 import React, { useEffect, useState } from 'react';
-import {
-  Auth,
-  Hub
-  // API,
-  // graphqlOperation
-} from 'aws-amplify';
+import { Auth, Hub, API, graphqlOperation } from 'aws-amplify';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
+import { makeStyles } from '@material-ui/core/styles';
+import CssBaseline from '@material-ui/core/CssBaseline';
 
-// import { createBlog } from './graphql/mutations';
-// import { listBlogs } from './graphql/queries';
-import logo from './logo.svg';
+import * as subscriptions from './graphql/subscriptions';
+import { listContacts } from './graphql/queries';
 import './App.css';
+import Home from './pages/Home';
+import { Contacts } from './pages/Contacts/index';
+import NavBar from './components/NavBar';
 
-function App(props) {
+const useStyles = makeStyles(theme => ({
+  root: {
+    display: 'flex'
+  },
+  toolbar: theme.mixins.toolbar,
+  content: {
+    flexGrow: 1
+  }
+}));
+
+const state = {};
+const sub = (query, next) => API.graphql(graphqlOperation(query)).subscribe({ next });
+
+function App() {
+  const [contacts, setContacts] = useState([]);
+  state.contacts = contacts; // this is weird
+
   useEffect(() => {
-    Hub.listen('auth', data => {
-      const { payload } = data;
-      console.log('A new auth event has happened: ', data);
-      if (payload.event === 'signIn') {
-        console.log('a user has signed in!');
-      }
-      if (payload.event === 'signOut') {
-        console.log('a user has signed out!');
-      }
-    });
-
-    Hub.listen('configured', data => {
-      console.log('configured data', data);
-    });
-
     (async () => {
-      try {
-        const user = await Auth.currentAuthenticatedUser();
-        console.log('user', user);
-      } catch (e) {
-        console.log('e', e);
-      }
-      // const blogs = await listBlogsQuery();
-      // setBlog(blogs);
+      setContacts(await listContactsQuery());
     })();
+
+    const contactMutations = createStateMutations(setContacts);
+
+    const subscribeToEvent = eventType =>
+      sub(subscriptions[eventType], ({ value }) => {
+        contactMutations[eventType](value.data[eventType]);
+      });
+
+    ['onCreateContact', 'onDeleteContact', 'onUpdateContact'].forEach(subscribeToEvent);
   }, []);
 
-  const [blogs] = useState([]);
+  const [auth, setAuth] = useState(false);
+
+  useEffect(() => {
+    checkAuth(setAuth);
+  }, []);
+
+  const classes = useStyles();
+
+  const [modalOpen, setModalOpen] = React.useState(false);
+
+  const handleOpen = () => {
+    setModalOpen(true);
+  };
 
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        {blogs.map(({ name, id }) => (
-          <div key={id}>{name}</div>
-        ))}
-        <button onClick={() => Auth.federatedSignIn()}>Sign In</button>
-        <button onClick={checkUser}>Check User</button>
-        <button onClick={signOut}>Sign Out</button>
-        <button onClick={() => Auth.federatedSignIn({ provider: 'Google' })}>
-          Sign In with Google (test-33)
-        </button>
-      </header>
-    </div>
+    <Router>
+      <div className={classes.root}>
+        <CssBaseline />
+        <NavBar auth={auth} onModalOpen={handleOpen} />
+
+        <main className={classes.content}>
+          <div className={classes.toolbar} />
+
+          <div>
+            <Route path="/" exact component={Home} />
+            <Route
+              path="/contacts/"
+              render={props => (
+                <Contacts
+                  {...props}
+                  modalOpen={modalOpen}
+                  setModalOpen={setModalOpen}
+                  contacts={contacts}
+                  contactMutations={createStateMutations(setContacts)}
+                />
+              )}
+            />
+          </div>
+        </main>
+      </div>
+    </Router>
   );
 }
 
-function checkUser() {
-  Auth.currentAuthenticatedUser()
-    .then(user => console.log({ user }))
-    .catch(err => console.log(err));
+async function checkAuth(setAuth) {
+  Hub.listen('auth', ({ payload }) => {
+    if (payload.event === 'signIn') {
+      updateAuth(setAuth);
+    }
+    if (payload.event === 'signOut') {
+      setAuth(undefined);
+    }
+  });
+
+  updateAuth(setAuth);
 }
 
-function signOut() {
-  Auth.signOut()
-    .then(data => console.log(data))
-    .catch(err => console.log(err));
+async function listContactsQuery() {
+  const { data } = await API.graphql(graphqlOperation(listContacts, { limit: 999 }));
+
+  return data.listContacts.items;
 }
 
-// async function createBlogMutation() {
-//   const todoDetails = {
-//     name: 'Party tonight!'
-//   };
+async function updateAuth(setAuth) {
+  try {
+    const { attributes } = await Auth.currentAuthenticatedUser();
 
-//   const newBlog = await API.graphql(graphqlOperation(createBlog, todoDetails));
-//   console.log(newBlog);
-// }
-
-// async function listBlogsQuery() {
-//   const { data } = await API.graphql(graphqlOperation(listBlogs));
-
-//   return data.listBlogs.items;
-// }
+    setAuth({ email: attributes.email });
+  } catch (e) {
+    setAuth(undefined);
+  }
+}
 
 export default App;
+
+function createStateMutations(setContacts) {
+  return {
+    onCreateContact: contact => {
+      if (!state.contacts.some(({ id }) => id === contact.id)) {
+        setContacts([...state.contacts, contact]);
+      }
+    },
+    onDeleteContact: contact => setContacts(state.contacts.filter(({ id }) => id !== contact.id)),
+    onUpdateContact: contact =>
+      setContacts(
+        state.contacts.map(existingContact =>
+          existingContact.id === contact.id ? contact : existingContact
+        )
+      )
+  };
+}

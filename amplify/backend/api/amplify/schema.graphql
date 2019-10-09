@@ -1,16 +1,11 @@
-type Blog @model {
+type Contact @model {
   id: ID!
-  name: String!
-  posts: [Post] @connection(name: "BlogPosts")
+  firstName: String
+  lastName: String
+  phones: [Phone]
 }
-type Post @model {
-  id: ID!
-  title: String!
-  blog: Blog @connection(name: "BlogPosts")
-  comments: [Comment] @connection(name: "PostComments")
-}
-type Comment @model {
-  id: ID!
-  content: String
-  post: Post @connection(name: "PostComments")
+
+type Phone {
+  number: String!
+  type: String
 }
