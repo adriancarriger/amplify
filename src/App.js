@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Auth, Hub, API, graphqlOperation } from 'aws-amplify';
-import { BrowserRouter as Router, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Redirect } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 
@@ -28,25 +28,19 @@ function App() {
   const [contacts, setContacts] = useState([]);
   state.contacts = contacts; // this is weird
 
-  useEffect(() => {
-    (async () => {
-      setContacts(await listContactsQuery());
-    })();
-
-    const contactMutations = createStateMutations(setContacts);
-
-    const subscribeToEvent = eventType =>
-      sub(subscriptions[eventType], ({ value }) => {
-        contactMutations[eventType](value.data[eventType]);
-      });
-
-    ['onCreateContact', 'onDeleteContact', 'onUpdateContact'].forEach(subscribeToEvent);
-  }, []);
-
   const [auth, setAuth] = useState(false);
 
   useEffect(() => {
-    checkAuth(setAuth);
+    Hub.listen('auth', ({ payload }) => {
+      if (payload.event === 'signIn') {
+        updateAuth(setAuth, setContacts);
+      }
+      if (payload.event === 'signOut') {
+        setAuth(undefined);
+      }
+    });
+
+    updateAuth(setAuth, setContacts);
   }, []);
 
   const classes = useStyles();
@@ -67,37 +61,30 @@ function App() {
           <div className={classes.toolbar} />
 
           <div>
-            <Route path="/" exact component={Home} />
-            <Route
-              path="/contacts/"
-              render={props => (
-                <Contacts
-                  {...props}
-                  modalOpen={modalOpen}
-                  setModalOpen={setModalOpen}
-                  contacts={contacts}
-                  contactMutations={createStateMutations(setContacts)}
-                />
-              )}
-            />
+            <Route path="/" exact>
+              <Redirect to="/contacts/" />
+            </Route>
+            {auth ? (
+              <Route
+                path="/contacts/"
+                render={props => (
+                  <Contacts
+                    {...props}
+                    modalOpen={modalOpen}
+                    setModalOpen={setModalOpen}
+                    contacts={contacts}
+                    contactMutations={createStateMutations(setContacts)}
+                  />
+                )}
+              />
+            ) : (
+              <Home />
+            )}
           </div>
         </main>
       </div>
     </Router>
   );
-}
-
-async function checkAuth(setAuth) {
-  Hub.listen('auth', ({ payload }) => {
-    if (payload.event === 'signIn') {
-      updateAuth(setAuth);
-    }
-    if (payload.event === 'signOut') {
-      setAuth(undefined);
-    }
-  });
-
-  updateAuth(setAuth);
 }
 
 async function listContactsQuery() {
@@ -106,11 +93,24 @@ async function listContactsQuery() {
   return data.listContacts.items;
 }
 
-async function updateAuth(setAuth) {
+async function updateAuth(setAuth, setContacts) {
   try {
     const { attributes } = await Auth.currentAuthenticatedUser();
 
     setAuth({ email: attributes.email });
+
+    (async () => {
+      setContacts(await listContactsQuery());
+    })();
+
+    const contactMutations = createStateMutations(setContacts);
+
+    const subscribeToEvent = eventType =>
+      sub(subscriptions[eventType], ({ value }) => {
+        contactMutations[eventType](value.data[eventType]);
+      });
+
+    ['onCreateContact', 'onDeleteContact', 'onUpdateContact'].forEach(subscribeToEvent);
   } catch (e) {
     setAuth(undefined);
   }

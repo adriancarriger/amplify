@@ -35,7 +35,7 @@ const routeHash = {
   }
 };
 
-const routes = ['/', '/contacts/'];
+const routes = ['/contacts/'];
 
 const drawerWidth = 240;
 
@@ -64,6 +64,12 @@ const useStyles = makeStyles(theme => ({
     width: theme.spacing(7) + 1,
     [theme.breakpoints.up('sm')]: {
       width: theme.spacing(9) + 1
+    },
+    '& .add-new': {
+      width: '48px',
+      justifyContent: 'left',
+      paddingLeft: '0.2em',
+      overflow: 'hidden'
     }
   },
   navLink: {
@@ -165,8 +171,9 @@ function NavBar({ auth, location, onModalOpen }) {
           variant="extended"
           color="secondary"
           aria-label="add"
-          className={classes.fab}
+          className={`${classes.fab} add-new`}
           onClick={onModalOpen}
+          disabled={!auth}
         >
           <AddIcon className={classes.extendedIcon} />
           Create contact
