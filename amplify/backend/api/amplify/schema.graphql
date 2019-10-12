@@ -1,8 +1,44 @@
-type Contact @model @auth(rules: [{ allow: owner, operations: [create, update, delete, read] }]) {
+type User @model @auth(rules: [{ allow: owner }, { allow: groups, groups: ["admin"] }]) {
+  email: String!
+  first_name: String
+  last_name: String
+}
+
+type Contact @model @auth(rules: [{ allow: owner }, { allow: groups, groups: ["admin"] }]) {
   id: ID!
   firstName: String
   lastName: String
   phones: [Phone]
+}
+
+type TwilioAccount @model @auth(rules: [{ allow: owner }, { allow: groups, groups: ["admin"] }]) {
+  id: ID!
+  account_sid: String!
+  authToken: String!
+}
+
+type Message @model @auth(rules: [{ allow: owner }, { allow: groups, groups: ["admin"] }]) {
+  id: ID!
+  account_sid: String!
+  api_version: String
+  body: String
+  date_created: String
+  date_sent: String
+  date_updated: String
+  direction: String!
+  error_code: String
+  error_message: String
+  from: String
+  messaging_service_sid: String
+  num_media: String
+  num_segments: String
+  price: String
+  price_unit: String
+  sid: String
+  status: String
+  to: String
+  uri: String
+  contacts: [Contact]
 }
 
 type Phone {

@@ -22,7 +22,8 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const state = {};
-const sub = (query, next) => API.graphql(graphqlOperation(query)).subscribe({ next });
+const sub = (query, owner, next) =>
+  API.graphql(graphqlOperation(query, { owner })).subscribe({ next });
 
 function App() {
   const [contacts, setContacts] = useState([]);
@@ -95,9 +96,9 @@ async function listContactsQuery() {
 
 async function updateAuth(setAuth, setContacts) {
   try {
-    const { attributes } = await Auth.currentAuthenticatedUser();
+    const { attributes, username } = await Auth.currentAuthenticatedUser();
 
-    setAuth({ email: attributes.email });
+    setAuth({ email: attributes.email, username });
 
     (async () => {
       setContacts(await listContactsQuery());
@@ -106,7 +107,7 @@ async function updateAuth(setAuth, setContacts) {
     const contactMutations = createStateMutations(setContacts);
 
     const subscribeToEvent = eventType =>
-      sub(subscriptions[eventType], ({ value }) => {
+      sub(subscriptions[eventType], username, ({ value }) => {
         contactMutations[eventType](value.data[eventType]);
       });
 
