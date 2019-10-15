@@ -1,0 +1,34 @@
+{
+    "paths": [
+        {
+            "name": "/twilio",
+            "lambdaFunction": "twilio",
+            "privacy": {
+                "open": true
+            }
+        }
+    ],
+    "resourceName": "twilio",
+    "apiName": "twilio",
+    "functionArns": [
+        {
+            "lambdaFunction": "twilio"
+        }
+    ],
+    "privacy": {
+        "auth": 0,
+        "unauth": 0,
+        "authRoleName": "amplify-stagingtwo-20190831104433-authRole",
+        "unAuthRoleName": "amplify-stagingtwo-20190831104433-unauthRole"
+    },
+    "dependsOn": [
+        {
+            "category": "function",
+            "resourceName": "twilio",
+            "attributes": [
+                "Name",
+                "Arn"
+            ]
+        }
+    ]
+}

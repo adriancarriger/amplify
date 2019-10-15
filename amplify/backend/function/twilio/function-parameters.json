@@ -1,0 +1,20 @@
+{
+    "permissions": {
+        "auth": {
+            "amplify0686d921": [
+                "create",
+                "read",
+                "update",
+                "delete"
+            ]
+        },
+        "api": {
+            "amplify": [
+                "create",
+                "read",
+                "update",
+                "delete"
+            ]
+        }
+    }
+}
